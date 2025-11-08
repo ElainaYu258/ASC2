@@ -21,13 +21,13 @@ void Motor1_SetPWM(int8_t Speed)
 	{
 		GPIO_SetBits(GPIOB, GPIO_Pin_12);
 		GPIO_ResetBits(GPIOB, GPIO_Pin_13);
-		PWM_SetCompare1(Speed);
+		PWM_SetCompare3(-Speed);
 	}
 	else
 	{
-		GPIO_ResetBits(GPIOB, GPIO_Pin_13);
-		GPIO_SetBits(GPIOB, GPIO_Pin_12);
-		PWM_SetCompare1(-Speed);
+		GPIO_ResetBits(GPIOB, GPIO_Pin_12);
+		GPIO_SetBits(GPIOB, GPIO_Pin_13);
+		PWM_SetCompare3(Speed);
 	}
 }
 
@@ -35,14 +35,14 @@ void Motor2_SetPWM(int8_t Speed)
 {
 	if (Speed >= 0)
 	{
-		GPIO_SetBits(GPIOB, GPIO_Pin_14);
-		GPIO_ResetBits(GPIOB, GPIO_Pin_15);
-		PWM_SetCompare1(Speed);
+		GPIO_SetBits(GPIOB, GPIO_Pin_15);
+		GPIO_ResetBits(GPIOB, GPIO_Pin_14);
+		PWM_SetCompare3(Speed);
 	}
 	else
 	{
 		GPIO_ResetBits(GPIOB, GPIO_Pin_15);
 		GPIO_SetBits(GPIOB, GPIO_Pin_14);
-		PWM_SetCompare1(-Speed);
+		PWM_SetCompare3(-Speed);
 	}
 }
