@@ -13,7 +13,7 @@
 uint8_t KeyNum;
 
 float Target, Actual, Out;
-float Kp=0.85, Ki=0.01, Kd=0;
+float Kp, Ki, Kd;
 float Error0, Error1, Error2,ErrorInt;
 uint8_t loc=0;
 
@@ -34,10 +34,14 @@ int main(void)
 	while (1)
 	{
 		KeyNum = Key_GetNum();
-		if (KeyNum == 1){loc=!loc;}
+		if (KeyNum == 1){
+			loc=!loc;
+			Target=0, Actual=0, Out=0;
+		}
 		if(loc==0){
 			OLED_Printf(0, 0, OLED_8X16, "Speed Control      ");
 			int speed;
+			Kp=0.8, Ki=0.01, Kd=0;
 			if(Serial_RxFlag==1){
 				if (sscanf(Serial_RxPacket, "speed%%%d", &speed)==1) {
 					Target = speed ;
@@ -46,6 +50,8 @@ int main(void)
 			}
 		}
 		else if(loc==1){
+			Kp=0.6, Ki=0.01, Kd=0;
+			
 			OLED_Printf(0, 0, OLED_8X16, "Location Control   ");
 
 		}
@@ -86,18 +92,20 @@ void TIM1_UP_IRQHandler(void)
 				Out += Kp * (Error0 - Error1) + Ki * Error0
 						+ Kd * (Error0 - 2 * Error1 + Error2);
 				
-				if (Out > 200) {Out = 200;}
-				if (Out < -200) {Out = -200;}
+				if (Out > 100) {Out = 100;}
+				if (Out < -100) {Out = -100;}
 				
 				Motor1_SetPWM(Out);
-				Motor2_SetPWM(Out);
+
+
 			}
 		}
 		else if(loc==1){
-			if (Count >= 40)
+			if (Count >= 20)
 			{
 				Count = 0;
 				
+				Target += Encoder1_Get();
 				Actual += Encoder2_Get();
 				
 				Error1 = Error0;
@@ -109,10 +117,10 @@ void TIM1_UP_IRQHandler(void)
 				
 				Out = Kp * Error0 + Ki * ErrorInt + Kd * (Error0 - Error1);
 				
-				if (Out > 200) {Out = 200;}
-				if (Out < -200) {Out = -200;}
+				if (Out > 100) {Out = 100;}
+				if (Out < -100) {Out = -100;}
 				
-				Motor1_SetPWM(Out);
+				Motor2_SetPWM(Out);
 			}
 		
 		}
