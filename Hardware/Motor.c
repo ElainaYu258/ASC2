@@ -1,5 +1,6 @@
 #include "stm32f10x.h"                  // Device header
 #include "PWM.h"
+#include "Key.h"
 
 void Motor_Init(void)
 {
@@ -35,6 +36,17 @@ void Motor2_SetPWM(int8_t Speed)
 {
 	if (Speed >= 0)
 	{
+<<<<<<< HEAD
+		GPIO_SetBits(GPIOB, GPIO_Pin_5);
+		GPIO_ResetBits(GPIOB, GPIO_Pin_4);
+		PWM_SetCompare3(Speed);
+	}
+	else
+	{
+		GPIO_ResetBits(GPIOB, GPIO_Pin_5);
+		GPIO_SetBits(GPIOB, GPIO_Pin_4);
+		PWM_SetCompare3(-Speed);
+=======
 		GPIO_SetBits(GPIOB, GPIO_Pin_15);
 		GPIO_ResetBits(GPIOB, GPIO_Pin_14);
 		PWM_SetCompare1(Speed);
@@ -43,6 +55,23 @@ void Motor2_SetPWM(int8_t Speed)
 	{
 		GPIO_ResetBits(GPIOB, GPIO_Pin_15);
 		GPIO_SetBits(GPIOB, GPIO_Pin_14);
+		PWM_SetCompare1(-Speed);
+>>>>>>> 2c85877c3c45a459f2cae4bbdb67a4ccd445a8b0
+	}
+}
+
+void Motor3_SetPWM(int8_t Speed)
+{
+	if (Speed >= 0)
+	{
+		GPIO_SetBits(GPIOB, GPIO_Pin_14);
+		GPIO_ResetBits(GPIOB, GPIO_Pin_15);
+		PWM_SetCompare1(Speed);
+	}
+	else
+	{
+		GPIO_ResetBits(GPIOB, GPIO_Pin_14);
+		GPIO_SetBits(GPIOB, GPIO_Pin_15);
 		PWM_SetCompare1(-Speed);
 	}
 }
