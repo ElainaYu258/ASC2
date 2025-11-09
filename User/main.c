@@ -39,13 +39,9 @@ int main(void)
 			Target=0, Actual=0, Out=0;
 		}
 		if(loc==0){
+			Kp=1.5,Ki=0.5,Kd=0;
 			OLED_Printf(0, 0, OLED_8X16, "Speed Control      ");
 			int speed;
-<<<<<<< HEAD
-			Kp=1.5, Ki=0.5, Kd=0;
-=======
-			Kp=0.8, Ki=0.01, Kd=0;
->>>>>>> 2c85877c3c45a459f2cae4bbdb67a4ccd445a8b0
 			if(Serial_RxFlag==1){
 				if (sscanf(Serial_RxPacket, "speed%%%d", &speed)==1) {
 					Target = speed ;
@@ -54,11 +50,7 @@ int main(void)
 			}
 		}
 		else if(loc==1){
-			Kp=0.6, Ki=0.01, Kd=0;
-<<<<<<< HEAD
-=======
-			
->>>>>>> 2c85877c3c45a459f2cae4bbdb67a4ccd445a8b0
+			Kp=0.6,Ki=0.01,Kd=0;
 			OLED_Printf(0, 0, OLED_8X16, "Location Control   ");
 
 		}
@@ -103,11 +95,7 @@ void TIM1_UP_IRQHandler(void)
 				if (Out < -100) {Out = -100;}
 				
 				Motor1_SetPWM(Out);
-<<<<<<< HEAD
 				Motor2_SetPWM(Out);
-=======
-
->>>>>>> 2c85877c3c45a459f2cae4bbdb67a4ccd445a8b0
 
 			}
 		}
@@ -115,9 +103,8 @@ void TIM1_UP_IRQHandler(void)
 			if (Count >= 20)
 			{
 				Count = 0;
-				
-				Target += Encoder1_Get();
-				Actual += Encoder2_Get();
+				Target += Encoder2_Get();
+				Actual += Encoder1_Get();
 				
 				Error1 = Error0;
 				Error0 = Target - Actual;
@@ -131,11 +118,8 @@ void TIM1_UP_IRQHandler(void)
 				if (Out > 100) {Out = 100;}
 				if (Out < -100) {Out = -100;}
 				
-<<<<<<< HEAD
-				Motor3_SetPWM(Out);
-=======
+				Motor1_SetPWM(Out);
 				Motor2_SetPWM(Out);
->>>>>>> 2c85877c3c45a459f2cae4bbdb67a4ccd445a8b0
 			}
 		
 		}
